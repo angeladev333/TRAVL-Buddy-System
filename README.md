@@ -20,8 +20,8 @@ Learning FireBase and using Bootstrap for the first time!
 As a safety-promoting website, TRAV.L will continue updating our page and creating new ways to help students securely travel!
 
 # Built With
-bootstrap
-css
-firebase
-html
-javascript
+- bootstrap
+- css
+- firebase
+- html
+- javascript
