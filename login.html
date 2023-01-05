@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buddy System</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+
+</head>
+
+<title>Travel Buddies</title>
+
+<body>
+
+
+  <nav class="navbar sticky-top navbar-expand-lg bg-warning">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="logo.png" alt="waterloo-logo" width="18%" />
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="margin-left: 100px;">
+        <div class="navbar-nav">
+          <a class="nav-link" href="/index.html">Home</a>
+<!--           <a class="nav-link" href="/matchMe.html">Match Me!</a> -->
+          <a class="nav-link" href="/travelRooms.html">Travel Rooms</a>
+<!--           <a class="nav-link" href="/help.html">Help</a> -->
+        </div>
+      </div>
+      <span class="flex" style="margin-right: 50px;">
+        <button id="login" class="btn btn-outline-light" type="submit">Login </button>
+        <button id="logout" name="logout" class="btn btn-outline-light" type="submit">Logout </button>
+      </span>
+    </div>
+  </nav>
+
+  <form>
+		<div style="padding: 30px;">
+    <div id="login-div" class = "card">
+      <h1 id="title" class="display-4">Sign In</h1>
+      <label for="email"><p>Email</p></label>
+      <input type="text" placeholder="Enter Email" name="email1" id="email1"><br>
+
+      <label><p>Password</p></label>
+      <input type="password" placeholder="Password" name="psw1" id="psw1"> <br><br>
+      <button type="button" id="submitLogin" name="submitLogin" class="registerBtn" >Sign In</button><br><br>
+      <h7>Don't have an account? <a href="#" id="reg-btn">Register</a></h7>
+    </div>
+		</div>
+  </form>
+
+<div style="position: absolute; left: 0; right: 0; margin: 0 auto;">
+  <form>
+		<div style="padding: 30px">
+    <div id="register-div" class = "card">
+      <h1 id="title" class="display-4" style="padding: 20px;">Register</h1>
+      <p>Please fill in this form to create an account.</p>
+      <div style="position: relative; top: 0; bottom: 0; margin: auto 0;"> 
+        <label for="email"><p>Email</p></label><br>
+        <input type="text" placeholder="Enter Email" name="email2" id="email2" required><br><br>
+      </div>
+    
+      <label><p>Password</p></label><br>
+      <input type="password" placeholder="Password" name="psw2" id="psw2" required><br><br>
+      <button type="button" id="submitData" name="submitData" class="registerBtn">Register</button>
+    </div>
+		</div>
+  </form>
+<div>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+    import {getAnalytics} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-analytics.js";
+    import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js";
+    import {getDatabase, set, ref, update} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+
+
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWxjkxW7fSPXYuXeC-CEedlKPthC7po1o",
+      authDomain: "buddy-system-25a94.firebaseapp.com",
+      projectId: "buddy-system-25a94",
+      storageBucket: "buddy-system-25a94.appspot.com",
+      messagingSenderId: "996374702162",
+      appId: "1:996374702162:web:8d8040ef969f1c82c8d78b",
+      measurementId: "G-251J0DMVHE"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
+    const database = getDatabase(app);
+    
+    submitLogin.addEventListener("click", (e) => {
+
+      var email = document.getElementById('email1').value;
+      var password = document.getElementById('psw1').value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          // ...
+          var lgDate = new Date()
+          // adds login date to database
+          update(ref(database, 'users/' + user.uid), {
+            last_login: lgDate,
+          })
+            .then(() => {
+              // Data saved successfully!
+              alert('user logged in successfully');
+            })
+            .catch((error) => {
+              // The write failed...
+              alert(error);
+            });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          alert(errorMessage);
+        });
+    });
+    
+    submitData.addEventListener("click", (e) => {
+
+      var email = document.getElementById('email2').value;
+      var password = document.getElementById('psw2').value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          // ... user.uid
+          set(ref(database, 'users/' + user.uid), {
+            email: email
+          })
+            .then(() => {
+              // Data saved successfully!
+              alert('user created successfully');
+            })
+            .catch((error) => {
+              // The write failed...
+              alert(error);
+            });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+          alert(errorMessage);
+        });
+
+    });
+
+    logout.addEventListener("click", (e) => {
+      signOut(auth).then(() => {
+        alert('user logged out successfully');
+      }).catch((error) => {
+        alert(error);
+      });
+    });
+
+    auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById('login').style.display = "none";
+    document.getElementById('logout').style.display = "inline";
+  }
+  else {
+    document.getElementById('login').style.display = "inline";
+    document.getElementById('logout').style.display = "none";  
+  }
+});
+  </script>
+
+  <script src="script.js"></script>
+	<script src="login.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

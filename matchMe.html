@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buddy System</title>
+  <link rel="stylesheet" href="style.css">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+
+</head>
+
+<title>Travel Buddies</title>
+
+<body>
+
+	
+	<nav class="navbar sticky-top navbar-expand-lg bg-warning">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+			<img src="logo.png" alt="waterloo-logo" width = "50%"/>
+		</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup" style="margin-left: 250px;">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/index.html">Home</a>
+        <a class="nav-link active" aria-current="page" href="/matchMe.html">Match Me!</a>
+        <a class="nav-link" href="/travelRooms.html">Travel Rooms</a>
+				<a class="nav-link" href="/help.html">Help</a>
+      </div>
+    </div>
+		<span class="flex" style="margin-right: 50px;">
+      <button id = "login" class="btn btn-outline-light" type = "submit">Login </button>
+      <button id = "logout" class="btn btn-outline-light" type = "submit">Logout </button>
+		</span>
+  </div>
+</nav>
+	
+	
+	<div class="container">
+
+
+		
+	</div>
+
+ <script type="module">
+    // Import the functions you need from the SDKs you need
+
+    import {initializeApp} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js";
+    import {getAnalytics} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-analytics.js";
+    import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-auth.js";
+    import {getDatabase, set, ref, update} from "https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDWxjkxW7fSPXYuXeC-CEedlKPthC7po1o",
+      authDomain: "buddy-system-25a94.firebaseapp.com",
+      projectId: "buddy-system-25a94",
+      storageBucket: "buddy-system-25a94.appspot.com",
+      messagingSenderId: "996374702162",
+      appId: "1:996374702162:web:8d8040ef969f1c82c8d78b",
+      measurementId: "G-251J0DMVHE"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth();
+    const database = getDatabase(app);
+
+    logout.addEventListener("click", (e) => {
+      signOut(auth).then(() => {
+        alert('user logged out successfully');
+      }).catch((error) => {
+        alert(error);
+      });
+    });
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        document.getElementById('login').style.display = "none";
+        document.getElementById('logout').style.display = "inline";
+      }
+      else {
+        document.getElementById('login').style.display = "inline";
+        document.getElementById('logout').style.display = "none";
+      }
+    });
+  </script>
+	
+  <script src="script.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
